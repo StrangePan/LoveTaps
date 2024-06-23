@@ -1,16 +1,45 @@
+
+local game = {
+  player = {},
+}
+
 function love.load()
-  myShader = love.graphics.newShader[[
-    vec4 effect(vec4 color, Image texture, vec2 texture_coords, vec2 screen_coords){
-      vec2 normalized_screen_coords = vec2(screen_coords.x / love_ScreenSize.x, screen_coords.y / love_ScreenSize.y) - vec2(0.5, 0.5);
-      vec4 pixel = Texel(texture, texture_coords );
-      pixel *= step(0.4, length(normalized_screen_coords));
-      return pixel * color;
-    }
-  ]]
+  game.music = love.audio.newSource("tracks/hole-in-one-2.mp3", "stream")
+  game.music:play()
+
+  love.graphics.setBackgroundColor(1, 1, 1, 1)
+  game.player.tapper = require 'player-tapper'
+  game.track = require 'guitar-hero-track'
 end
+
+function love.update(dt)
+  if game.track and game.track.update then
+    game.track:update(dt)
+  end
+  if game.player.tapper and game.player.tapper.update then
+    game.player.tapper:update(dt)
+  end
+end
+
+function love.mousepressed(x, y, button, isTouch, presses)
+  if game.player.tapper then
+    game.player.tapper:tap()
+  end
+end
+
+function love.keypressed(key, scancode, isRepeat)
+  if key == "space" and not isRepeat then
+    if game.player.tapper and game.player.tapper.tap then
+      game.player.tapper:tap()
+    end
+  end
+end
+
 function love.draw()
-  love.graphics.setShader(myShader) --draw something here
-  local width, height = love.graphics.getDimensions()
-  love.graphics.rectangle("fill", 0, 0, width, height)
-  love.graphics.setShader()
+  if game.track and game.track.draw then
+    game.track:draw()
+  end
+  if game.player.tapper and game.player.tapper.draw then
+    game.player.tapper:draw()
+  end
 end
