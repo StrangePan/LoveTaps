@@ -42,10 +42,9 @@ return {
   end,
 
   update = function(this, dt)
-    if not this.track or not this.notes then
-      return
+    if this.track and this.notes then
+      this:updateNotes()
     end
-    this:updateNotes()
   end,
 
   updateNotes = function(this)
@@ -54,8 +53,8 @@ return {
       table.remove(this.notes, 1)
     end
     while this.trackIndex <= #this.track
-        and this.track[this.trackIndex] < (time - this.startTime + 6) do
-      table.insert(this.notes, note.create(this.track[this.trackIndex], 300))
+        and this.track[this.trackIndex] < (time + 6) do
+      table.insert(this.notes, note.create(this.startTime + this.track[this.trackIndex], 300))
       this.trackIndex = this.trackIndex + 1
     end
   end,

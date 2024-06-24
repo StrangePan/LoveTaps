@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d0ee3cf9-ff24-4d40-a834-f3cb0203cd39" name="Changes" comment="Add tapper, track, note, and play basic music (not included for copyright reasons)">
+    <list default="true" id="d0ee3cf9-ff24-4d40-a834-f3cb0203cd39" name="Changes" comment="Make notes fall in the track">
+      <change afterPath="$PROJECT_DIR$/conf.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/guitar-hero-note.lua" beforeDir="false" afterPath="$PROJECT_DIR$/guitar-hero-note.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/guitar-hero-track.lua" beforeDir="false" afterPath="$PROJECT_DIR$/guitar-hero-track.lua" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.lua" beforeDir="false" afterPath="$PROJECT_DIR$/main.lua" afterDir="false" />
     </list>
@@ -36,15 +36,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Shell Script.Love2D.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "preferences.sourceCode.Lua"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Shell Script.Love2D.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.Lua&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Love2D" type="ShConfigurationType">
       <option name="SCRIPT_TEXT" value="love ." />
@@ -87,12 +87,21 @@
       <option name="project" value="LOCAL" />
       <updated>1719159395468</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Make notes fall in the track">
+      <option name="closed" value="true" />
+      <created>1719254985452</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1719254985452</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Create project" />
     <MESSAGE value="Add tapper, track, note, and play basic music (not included for copyright reasons)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add tapper, track, note, and play basic music (not included for copyright reasons)" />
+    <MESSAGE value="Make notes fall in the track" />
+    <option name="LAST_COMMIT_MESSAGE" value="Make notes fall in the track" />
   </component>
 </project>
