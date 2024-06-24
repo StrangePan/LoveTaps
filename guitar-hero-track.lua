@@ -4,10 +4,13 @@
 
 local note = require 'guitar-hero-note'
 
+local hitTolerance = 0.1
+
 return {
   track = nil,
   notes = nil,
   startTime = love.timer.getTime(),
+  tapper = require 'guitar-hero-tapper',
 
   draw = function(this)
     love.graphics.push()
@@ -32,6 +35,29 @@ return {
         n:draw()
       end
     end
+
+    this.tapper:draw()
+  end,
+
+  tap = function(this)
+    local tapTime = love.timer.getTime()
+    this.tapper:tap()
+
+    print(tapTime, this.notes[this.noteIndex].targetTime)
+    if this.track
+        and this.trackIndex
+        and this.trackIndex >= 1
+        and this.notes
+        and this.noteIndex then
+      if this.noteIndex > 1
+          and this.notes[this.noteIndex - 1].state == 0
+          and this.notes[this.noteIndex - 1].targetTime + hitTolerance >= tapTime then
+        this.notes[this.noteIndex - 1]:hit()
+      elseif this.notes[this.noteIndex].state == 0
+          and this.notes[this.noteIndex].targetTime - hitTolerance <= tapTime then
+        this.notes[this.noteIndex]:hit()
+      end
+    end
   end,
 
   setTrack = function(this, track)
@@ -48,14 +74,40 @@ return {
   end,
 
   updateNotes = function(this)
-    local time = love.timer.getTime() - this.startTime
-    while #this.notes > 0 and this.notes[1].targetTime < time - 1 do
+    local time = love.timer.getTime()
+    while #this.notes > 0 and this.notes[1].targetTime + 1 < time do
       table.remove(this.notes, 1)
+      if this.noteIndex then
+        this.noteIndex = this.noteIndex - 1
+        if this.noteIndex == 0 then
+          this.noteIndex = nil
+        end
+        print(this.noteIndex)
+      end
     end
     while this.trackIndex <= #this.track
-        and this.track[this.trackIndex] < (time + 6) do
+        and this.startTime + this.track[this.trackIndex] < (time + 6) do
       table.insert(this.notes, note.create(this.startTime + this.track[this.trackIndex], 300))
       this.trackIndex = this.trackIndex + 1
+      if not this.noteIndex then
+        this.noteIndex = 1
+        print(this.noteIndex)
+      end
+    end
+    if this.noteIndex and this.notes then
+      while this.noteIndex >= 1
+          and this.noteIndex <= #this.notes
+          and this.notes[this.noteIndex].targetTime < time do
+        this.noteIndex = this.noteIndex + 1
+        print(this.noteIndex)
+      end
+    end
+    for i = 1,this.noteIndex do
+      if this.notes[i].state == 0
+          and (i < this.noteIndex - 1
+              or this.notes[i].targetTime + hitTolerance < time) then
+        this.notes[i]:miss()
+      end
     end
   end,
 }

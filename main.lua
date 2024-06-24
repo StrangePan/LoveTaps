@@ -1,6 +1,5 @@
 
 local game = {
-  player = {},
 }
 
 local record = false
@@ -27,7 +26,6 @@ function love.load()
   end
 
   love.graphics.setBackgroundColor(1, 1, 1, 1)
-  game.player.tapper = require 'player-tapper'
   game.track = require 'guitar-hero-track'
   game.track:setTrack(loadTrack("tracks/hole-in-one-2.track"))
 
@@ -50,17 +48,14 @@ function love.update(dt)
   if game.track and game.track.update then
     game.track:update(dt)
   end
-  if game.player.tapper and game.player.tapper.update then
-    game.player.tapper:update(dt)
-  end
 end
 
 local function tap()
   if record then
     table.insert(recording, love.timer.getTime() - game.startTime)
   end
-  if game.player.tapper then
-    game.player.tapper:tap()
+  if game.track then
+    game.track:tap()
   end
 end
 
@@ -77,8 +72,5 @@ end
 function love.draw()
   if game.track and game.track.draw then
     game.track:draw()
-  end
-  if game.player.tapper and game.player.tapper.draw then
-    game.player.tapper:draw()
   end
 end
