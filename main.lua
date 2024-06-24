@@ -6,6 +6,8 @@ local record = false
 local recording = {}
 local recordingFile = nil
 
+local backgroundShader = nil
+
 local function loadTrack(filename)
   local file = love.filesystem.newFile(filename)
   local ok,e = file:open('r')
@@ -19,6 +21,10 @@ local function loadTrack(filename)
 end
 
 function love.load()
+  local shaderContents,e = love.filesystem.read("shaders/background.glsl")
+  if not shaderContents then error(e) end
+  backgroundShader = love.graphics.newShader(shaderContents)
+
   if record then
     recordingFile = love.filesystem.newFile("recording")
     local ok,e = recordingFile:open('w')
@@ -70,6 +76,14 @@ function love.keypressed(key, scancode, isRepeat)
 end
 
 function love.draw()
+  love.graphics.setShader(backgroundShader)
+  love.graphics.setColor(love.math.colorFromBytes(110, 216, 255))
+  backgroundShader:send('time', love.timer.getTime())
+  backgroundShader:send('topColor', { love.math.colorFromBytes(63, 208, 196, 255) })
+  backgroundShader:send('bottomColor', { love.math.colorFromBytes(153, 159, 208, 255) })
+  love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
+  love.graphics.setShader()
+
   if game.track and game.track.draw then
     game.track:draw()
   end
