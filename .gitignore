@@ -1,1 +1,3 @@
 *.mp3
+/.idea/workspace.xml
+.DS_Store
