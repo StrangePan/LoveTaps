@@ -31,12 +31,10 @@ return {
       end,
 
       hit = function(this)
-        print("hit!")
         this.state = 1
       end,
 
       miss = function(this)
-        print("miss!")
         this.state = 2
       end,
     }

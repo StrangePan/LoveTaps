@@ -43,7 +43,6 @@ return {
     local tapTime = love.timer.getTime()
     this.tapper:tap()
 
-    print(tapTime, this.notes[this.noteIndex].targetTime)
     if this.track
         and this.trackIndex
         and this.trackIndex >= 1
@@ -82,7 +81,6 @@ return {
         if this.noteIndex == 0 then
           this.noteIndex = nil
         end
-        print(this.noteIndex)
       end
     end
     while this.trackIndex <= #this.track
@@ -91,7 +89,6 @@ return {
       this.trackIndex = this.trackIndex + 1
       if not this.noteIndex then
         this.noteIndex = 1
-        print(this.noteIndex)
       end
     end
     if this.noteIndex and this.notes then
@@ -99,7 +96,6 @@ return {
           and this.noteIndex <= #this.notes
           and this.notes[this.noteIndex].targetTime < time do
         this.noteIndex = this.noteIndex + 1
-        print(this.noteIndex)
       end
     end
     for i = 1,this.noteIndex do
