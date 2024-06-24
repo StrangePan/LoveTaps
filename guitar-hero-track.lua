@@ -98,7 +98,7 @@ return {
         this.noteIndex = this.noteIndex + 1
       end
     end
-    for i = 1,this.noteIndex do
+    for i = 1,math.min(this.noteIndex, #this.notes) do
       if this.notes[i].state == 0
           and (i < this.noteIndex - 1
               or this.notes[i].targetTime + hitTolerance < time) then
