@@ -10,6 +10,9 @@ function love.load()
   love.graphics.setBackgroundColor(1, 1, 1, 1)
   game.player.tapper = require 'player-tapper'
   game.track = require 'guitar-hero-track'
+  game.track:setTrack {
+    1, 2, 3, 3.5, 3.75, 4,
+  }
 end
 
 function love.update(dt)

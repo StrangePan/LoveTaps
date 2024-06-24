@@ -1,9 +1,8 @@
 return {
-  create = function(targetTime, speed, onDestroy)
+  create = function(targetTime, speed)
     return {
       targetTime = targetTime,
       speed = speed,
-      onDestroy = onDestroy,
       state = 0,
 
       draw = function(this)
@@ -22,10 +21,11 @@ return {
         local offset = (love.timer.getTime() - this.targetTime) * this.speed
         love.graphics.rectangle(
             "fill",
-            love.graphics.getWidth() / 2,
+            love.graphics.getWidth() / 2 - width / 2,
             love.graphics.getHeight() - 100 - height / 2 + offset,
             width,
-            height)
+            height,
+            8)
 
         love.graphics.pop()
       end,
