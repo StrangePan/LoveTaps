@@ -11,6 +11,7 @@ return {
   notes = nil,
   startTime = love.timer.getTime(),
   tapper = require 'guitar-hero-tapper',
+  particles = require 'guitar-hero-particles',
 
   draw = function(this)
     love.graphics.push()
@@ -31,10 +32,12 @@ return {
     love.graphics.pop()
 
     if this.notes then
-      for i,n in ipairs(this.notes) do
+      for _,n in ipairs(this.notes) do
         n:draw()
       end
     end
+
+    this.particles:draw()
 
     this.tapper:draw()
   end,
@@ -42,6 +45,12 @@ return {
   tap = function(this)
     local tapTime = love.timer.getTime()
     this.tapper:tap()
+
+    if this.tapper.side == 0 then
+      this.particles:leftBurst()
+    else
+      this.particles:rightBurst()
+    end
 
     if this.track
         and this.trackIndex
@@ -69,6 +78,9 @@ return {
   update = function(this, dt)
     if this.track and this.notes then
       this:updateNotes()
+    end
+    if this.particles then
+      this.particles:update(dt)
     end
   end,
 

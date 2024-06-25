@@ -25,16 +25,20 @@ return {
 
     if timeSinceTap and timeSinceTap < tapSnap then
       local x = fromX + (toX - fromX) * (timeSinceTap / tapSnap)
-      love.graphics.setColor(love.math.colorFromBytes(209,  53, 94, 255 * (1.0 - timeSinceTap / tapTrail)))
+      --love.graphics.setColor(love.math.colorFromBytes(209,  53, 94, 255 * (1.0 - timeSinceTap / tapTrail)))
+      love.graphics.setColor(1, 1, 1, (1.0 - timeSinceTap / tapTrail))
       love.graphics.rectangle("fill", math.min(fromX, x), this.y - 4, math.abs(x - fromX), 8)
-      love.graphics.setColor(love.math.colorFromBytes(209,  53, 94))
+      --love.graphics.setColor(love.math.colorFromBytes(209,  53, 94))
+      love.graphics.setColor(1, 1, 1, 1)
       love.graphics.ellipse("fill", x, this.y, 20, 10)
     else
       if timeSinceTap and timeSinceTap < tapTrail then
-        love.graphics.setColor(love.math.colorFromBytes(209,  53, 94, 255 * (1.0 - timeSinceTap / tapTrail)))
+        --love.graphics.setColor(love.math.colorFromBytes(209,  53, 94, 255 * (1.0 - timeSinceTap / tapTrail)))
+        love.graphics.setColor(1, 1, 1, (1.0 - timeSinceTap / tapTrail))
         love.graphics.rectangle("fill", this.x - 120, this.y - 4, 240, 8)
       end
-      love.graphics.setColor(love.math.colorFromBytes(209,  53, 94))
+      --love.graphics.setColor(love.math.colorFromBytes(209,  53, 94))
+      love.graphics.setColor(1, 1, 1, 1)
       love.graphics.circle("fill", toX, this.y, 10)
     end
 
