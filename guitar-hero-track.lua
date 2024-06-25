@@ -9,7 +9,6 @@ local hitTolerance = 0.1
 return {
   track = nil,
   notes = nil,
-  startTime = love.timer.getTime(),
   tapper = require 'guitar-hero-tapper',
   particles = require 'guitar-hero-particles',
 
@@ -31,9 +30,11 @@ return {
 
     love.graphics.pop()
 
+    local time = this.music and this.music:tell() or 0
+
     if this.notes then
       for _,n in ipairs(this.notes) do
-        n:draw()
+        n:draw(time)
       end
     end
 
@@ -43,7 +44,7 @@ return {
   end,
 
   tap = function(this)
-    local tapTime = love.timer.getTime()
+    local tapTime = this.music and this.music:tell() or 0
     this.tapper:tap()
 
     if this.tapper.side == 0 then
@@ -68,7 +69,8 @@ return {
     end
   end,
 
-  setTrack = function(this, track)
+  setTrack = function(this, music, track)
+    this.music = music
     this.track = track -- maybe should copy
     this.notes = {}
     this.trackIndex = 1
@@ -85,7 +87,7 @@ return {
   end,
 
   updateNotes = function(this)
-    local time = love.timer.getTime()
+    local time = this.music and this.music:tell() or 0
     while #this.notes > 0 and this.notes[1].targetTime + 1 < time do
       table.remove(this.notes, 1)
       if this.noteIndex then
@@ -96,8 +98,8 @@ return {
       end
     end
     while this.trackIndex <= #this.track
-        and this.startTime + this.track[this.trackIndex] < (time + 6) do
-      table.insert(this.notes, note.create(this.startTime + this.track[this.trackIndex], 300))
+        and this.track[this.trackIndex] < (time + 6) do
+      table.insert(this.notes, note.create(this.track[this.trackIndex], 300))
       this.trackIndex = this.trackIndex + 1
       if not this.noteIndex then
         this.noteIndex = 1

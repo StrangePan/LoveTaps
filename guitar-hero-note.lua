@@ -5,7 +5,7 @@ return {
       speed = speed,
       state = 0,
 
-      draw = function(this)
+      draw = function(this, time)
         love.graphics.push()
 
         if this.state == 0 then
@@ -18,7 +18,7 @@ return {
 
         local height = 20
         local width = 100
-        local offset = (love.timer.getTime() - this.targetTime) * this.speed
+        local offset = (time - this.targetTime) * this.speed
         love.graphics.rectangle(
             "fill",
             love.graphics.getWidth() / 2 - width / 2,

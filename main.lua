@@ -32,11 +32,11 @@ function love.load()
   end
 
   love.graphics.setBackgroundColor(1, 1, 1, 1)
-  game.track = require 'guitar-hero-track'
-  game.track:setTrack(loadTrack("tracks/hole-in-one-2.track"))
 
   game.music = love.audio.newSource("tracks/hole-in-one-2.mp3", "stream")
-  game.startTime = love.timer.getTime()
+
+  game.track = require 'guitar-hero-track'
+  game.track:setTrack(game.music, loadTrack("tracks/hole-in-one-2.track"))
   game.music:play()
 end
 
@@ -58,7 +58,7 @@ end
 
 local function tap()
   if record then
-    table.insert(recording, love.timer.getTime() - game.startTime)
+    table.insert(recording, game.music:tell())
   end
   if game.track then
     game.track:tap()
@@ -72,6 +72,15 @@ end
 function love.keypressed(key, scancode, isRepeat)
   if key == "space" and not isRepeat then
     tap()
+  end
+  if key == "escape" and not isRepeat then
+    if game.music then
+      if game.music:isPlaying() then
+        game.music:pause()
+      else
+        game.music:play()
+      end
+    end
   end
 end
 
