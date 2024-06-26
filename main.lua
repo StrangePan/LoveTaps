@@ -33,10 +33,10 @@ function love.load()
 
   love.graphics.setBackgroundColor(1, 1, 1, 1)
 
-  game.music = love.audio.newSource("tracks/hole-in-one-2.mp3", "stream")
+  game.music = love.audio.newSource("tracks/monkey-watch.mp3", "stream")
 
   game.track = require 'guitar-hero-track'
-  game.track:setTrack(game.music, loadTrack("tracks/hole-in-one-2.track"))
+  game.track:setTrack(game.music, loadTrack("tracks/monkey-watch.track"))
   game.music:play()
 end
 
