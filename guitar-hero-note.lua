@@ -12,22 +12,27 @@ return {
           love.graphics.setColor(love.math.colorFromBytes(255, 242, 60))
         elseif this.state == 1 then
           love.graphics.setColor(love.math.colorFromBytes(0, 221, 21))
+          love.graphics.pop()
+          return
         elseif this.state == 2 then
           love.graphics.setColor(love.math.colorFromBytes(255, 49, 76))
         end
 
         local height = 20
         local width = 100
-        local offset = (time - this.targetTime) * this.speed
         love.graphics.rectangle(
             "fill",
             love.graphics.getWidth() / 2 - width / 2,
-            love.graphics.getHeight() - 100 - height / 2 + offset,
+            this:getY(time) - height / 2,
             width,
             height,
             8)
 
         love.graphics.pop()
+      end,
+
+      getY = function(this, time)
+        return love.graphics.getHeight() - 100 + (time - this.targetTime) * this.speed
       end,
 
       hit = function(this)

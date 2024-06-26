@@ -63,9 +63,19 @@ return {
           and this.notes[this.noteIndex - 1].state == 0
           and this.notes[this.noteIndex - 1].targetTime + hitTolerance >= tapTime then
         this.notes[this.noteIndex - 1]:hit()
+        if this.tapper.side == 0 then
+          this.particles:leftNoteBreak(this.notes[this.noteIndex - 1]:getY(tapTime))
+        else
+          this.particles:rightNoteBreak(this.notes[this.noteIndex - 1]:getY(tapTime))
+        end
       elseif this.notes[this.noteIndex].state == 0
           and this.notes[this.noteIndex].targetTime - hitTolerance <= tapTime then
         this.notes[this.noteIndex]:hit()
+        if this.tapper.side == 0 then
+          this.particles:leftNoteBreak(this.notes[this.noteIndex]:getY(tapTime))
+        else
+          this.particles:rightNoteBreak(this.notes[this.noteIndex]:getY(tapTime))
+        end
       end
     end
   end,
