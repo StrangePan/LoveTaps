@@ -9,6 +9,7 @@ local hitTolerance = 0.1
 return {
   track = nil,
   notes = nil,
+  noteIndex = nil,
   tapper = require 'guitar-hero-tapper',
   particles = require 'guitar-hero-particles',
 
@@ -111,12 +112,12 @@ return {
           and this.notes[this.noteIndex].targetTime < time do
         this.noteIndex = this.noteIndex + 1
       end
-    end
-    for i = 1,math.min(this.noteIndex, #this.notes) do
-      if this.notes[i].state == 0
-          and (i < this.noteIndex - 1
-              or this.notes[i].targetTime + hitTolerance < time) then
-        this.notes[i]:miss()
+      for i = 1,math.min(this.noteIndex, #this.notes) do
+        if this.notes[i].state == 0
+            and (i < this.noteIndex - 1
+            or this.notes[i].targetTime + hitTolerance < time) then
+          this.notes[i]:miss()
+        end
       end
     end
   end,
