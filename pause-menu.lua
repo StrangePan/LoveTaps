@@ -80,7 +80,7 @@ local pauseMenu = {
       draw = function(this)
         love.graphics.push()
 
-        love.graphics.setColor(0, 0, 0, 0.2)
+        love.graphics.setColor(0, 0, 0, 0.3)
         love.graphics.rectangle("fill", 0, 0, love.graphics.getWidth(), love.graphics.getHeight())
 
         local width = 200
