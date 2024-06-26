@@ -1,12 +1,12 @@
 
-local game = {
-}
+game = {}
 
 local record = false
 local recording = {}
 local recordingFile = nil
 
 local backgroundShader = nil
+local pauseMenu = require 'pause-menu'
 
 local function loadTrack(filename)
   local file = love.filesystem.newFile(filename)
@@ -51,12 +51,19 @@ function love.quit()
 end
 
 function love.update(dt)
+  if game.menu and game.menu.update then
+    game.menu:update(dt)
+    return
+  end
   if game.track and game.track.update then
     game.track:update(dt)
   end
 end
 
 local function tap()
+  if game.menu then
+    return
+  end
   if record then
     table.insert(recording, game.music:tell())
   end
@@ -65,22 +72,71 @@ local function tap()
   end
 end
 
+function love.mousemoved(x, y, dx, dy, istouch)
+  if game.menu and game.menu.mousemoved then
+    game.menu:mousemoved(x, y, dx, dy, istouch)
+    return
+  end
+end
+
 function love.mousepressed(x, y, button, isTouch, presses)
+  if game.menu and game.menu.mousepressed then
+    game.menu:mousepressed(x, y, button, isTouch, presses)
+    return
+  end
   tap()
 end
 
+function love.mousereleased(x, y, button, istouch, presses)
+  if game.menu and game.menu.mousereleased then
+    game.menu:mousereleased(x, y, button, istouch, presses)
+    return
+  end
+end
+
+function love.wheelmoved(x, y)
+  if game.menu and game.menu.wheelmoved then
+    game.menu:wheelmoved(x, y)
+    return
+  end
+end
+
+function game.pause(this)
+  if not this.menu then
+    this.menu = pauseMenu.create()
+  end
+  if this.music then
+    this.music:pause()
+  end
+end
+
+function game.unpause(this)
+  this.menu = nil
+  if this.music then
+    this.music:play()
+  end
+end
+
+function game.restart(this)
+  if this.music then
+    this.music:seek(0)
+  end
+end
+
+function game.quit(this)
+  love.event.quit()
+end
+
 function love.keypressed(key, scancode, isRepeat)
+  if game.menu and game.menu.keypressed then
+    game.menu:keypressed(key, scancode, isRepeat)
+    return
+  end
   if key == "space" and not isRepeat then
     tap()
   end
   if key == "escape" and not isRepeat then
-    if game.music then
-      if game.music:isPlaying() then
-        game.music:pause()
-      else
-        game.music:play()
-      end
-    end
+    game:pause()
   end
 end
 
@@ -95,5 +151,9 @@ function love.draw()
 
   if game.track and game.track.draw then
     game.track:draw()
+  end
+
+  if game.menu then
+    game.menu:draw()
   end
 end
