@@ -15,10 +15,9 @@ return {
     ps:setParticleLifetime(0.3)
     ps:setRotation(0)
     ps:setSpread(math.pi / 2)
-    ps:setLinearDamping(1.5)
+    ps:setLinearDamping(1)
     ps:setSpeed(50, 400)
     ps:setColors(
-        1, 1, 1, 1,
         1, 1, 1, 1,
         1, 1, 1, 1,
         1, 1, 1, 0)
