@@ -6,7 +6,7 @@ local recording = {}
 local recordingFile = nil
 
 local backgroundShader = nil
-local pauseMenu = require 'pause-menu'
+local pauseMenu = require 'menu.pause-menu'
 
 local function loadTrack(filename)
   local file = love.filesystem.newFile(filename)
