@@ -15,6 +15,7 @@ return {
       noteIndex = nil,
       tapper = require('guitar-hero.guitar-hero-tapper').create(),
       particles = require('guitar-hero.guitar-hero-particles').create(),
+      combo = require('score.combo').create(love.graphics.getWidth() / 2 + 150, love.graphics.getHeight() - 150),
 
       draw = function(this)
         love.graphics.push()
@@ -45,6 +46,7 @@ return {
         this.particles:draw()
 
         this.tapper:draw()
+        this.combo:draw()
       end,
 
       tap = function(this)
@@ -66,6 +68,7 @@ return {
               and this.notes[this.noteIndex - 1].state == 0
               and this.notes[this.noteIndex - 1].targetTime + hitTolerance >= tapTime then
             this.notes[this.noteIndex - 1]:hit()
+            this.combo:hit()
             if this.tapper.side == 0 then
               this.particles:leftNoteBreak(this.notes[this.noteIndex - 1]:getY(tapTime))
             else
@@ -78,11 +81,14 @@ return {
               and this.notes[this.noteIndex].state == 0
               and this.notes[this.noteIndex].targetTime - hitTolerance <= tapTime then
             this.notes[this.noteIndex]:hit()
+            this.combo:hit()
             if this.tapper.side == 0 then
               this.particles:leftNoteBreak(this.notes[this.noteIndex]:getY(tapTime))
             else
               this.particles:rightNoteBreak(this.notes[this.noteIndex]:getY(tapTime))
             end
+          else
+            this.combo:whiff()
           end
         end
       end,
@@ -136,6 +142,7 @@ return {
                 and (i < this.noteIndex - 1
                 or this.notes[i].targetTime + hitTolerance < time) then
               this.notes[i]:miss()
+              this.combo:miss()
             end
           end
         end
