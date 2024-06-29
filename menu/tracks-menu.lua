@@ -39,6 +39,12 @@ return {
       end
     end)
 
-    return require('menu.menu').create(buttons)
+    return require('menu.menu').create(buttons, {
+      keypressed = function(this, key, scancode, isRepeat)
+        if key == "escape" then
+          game:goToMainMenu()
+        end
+      end,
+    })
   end
 }

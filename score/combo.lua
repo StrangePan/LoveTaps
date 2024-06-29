@@ -47,10 +47,14 @@ return {
 
         local currentFont = love.graphics.getFont()
 
+        local comboDigits = math.ceil(math.log(this.streak + 1, 10))
+        local spacePerDigit = 80
+
         love.graphics.setFont(this.font)
         love.graphics.setColor(color)
         love.graphics.translate(x, y - (colorRatio * 40))
         love.graphics.scale(scale)
+        love.graphics.scale(math.min(1, 160 / (comboDigits * spacePerDigit)), 1)
         love.graphics.print(tostring(this.streak))
 
         love.graphics.setFont(currentFont)

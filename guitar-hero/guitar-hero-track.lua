@@ -110,6 +110,12 @@ return {
         if this.particles then
           this.particles:update(dt)
         end
+        if this.notes and #this.notes > 0 and this.music and this.music:isPlaying() and this.music:tell() > 0 then
+          this.started = true
+        end
+        if this.started and (not this.notes or #this.notes == 0) and this.music and not this.music:isPlaying() and this.music:tell() == 0 then
+          game:goToEndTrackMenu(this.combo)
+        end
       end,
 
       updateNotes = function(this)

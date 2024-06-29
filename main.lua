@@ -139,6 +139,12 @@ function game.startTrack(this, track)
   this.music:play()
 end
 
+function game.goToEndTrackMenu(this, combo)
+  local currentTrack = this.currentTrack
+  closeCurrentTrack(this)
+  showMenu(this, require('menu.end-track-menu').create(combo, currentTrack))
+end
+
 function game.pause(this)
   if not this.menu then
     this.menu = pauseMenu.create()
@@ -179,6 +185,16 @@ function love.keypressed(key, scancode, isRepeat)
   end
   if key == "escape" and not isRepeat then
     game:pause()
+  end
+  if key == "right" then
+    if game.music and game.music:isPlaying() then
+      game.music:seek(math.min(game.music:tell() + 5, game.music:getDuration() - 0.1))
+    end
+  end
+  if key == "left" then
+    if game.music and game.music:isPlaying() then
+      game.music:seek(math.max(game.music:tell() - 5, 0))
+    end
   end
 end
 

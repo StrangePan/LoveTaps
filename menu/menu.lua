@@ -41,12 +41,6 @@ return {
           end
         end
       end,
-
-      keypressed = function(this, key, scancode, isRepeat)
-        if key == "escape" then
-          game:unpause()
-        end
-      end,
     }
 
     return util.table.merge(menuBase, additionalProperties)

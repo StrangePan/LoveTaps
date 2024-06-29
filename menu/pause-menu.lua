@@ -56,6 +56,12 @@ return {
 
         love.graphics.pop()
       end,
+
+      keypressed = function(this, key, scancode, isRepeat)
+        if key == "escape" then
+          game:unpause()
+        end
+      end,
     })
   end,
 }
