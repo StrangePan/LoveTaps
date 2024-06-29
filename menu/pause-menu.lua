@@ -10,8 +10,8 @@ return {
         game:restart()
         game:unpause()
       end),
-      quit = button.create((love.graphics.getHeight() + 120) / 2, "QUIT", function()
-        game:quit()
+      quit = button.create((love.graphics.getHeight() + 120) / 2, "QUIT TO MENU", function()
+        game:goToMainMenu()
       end),
     }, {
       draw = function(this)

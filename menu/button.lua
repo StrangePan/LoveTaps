@@ -1,6 +1,6 @@
 return {
   create = function(y, text, action)
-    return {
+    local button = {
       y = y,
       text = text,
       action = action,
@@ -10,6 +10,11 @@ return {
 
       hovered = false,
       pressed = false,
+
+      init = function(this)
+        this.hovered = this:collidesWith(love.mouse.getPosition())
+        return this
+      end,
 
       draw = function(this)
         love.graphics.push()
@@ -38,11 +43,7 @@ return {
       end,
 
       mousemoved = function(this, x, y, dx, dy, istouch)
-        this.hovered =
-        x >= (love.graphics.getWidth() - this.width) / 2
-            and x <= (love.graphics.getWidth() + this.width) / 2
-            and y >= this.y - this.height / 2
-            and y <= this.y + this.height / 2
+        this.hovered = this:collidesWith(x, y)
       end,
 
       mousepressed = function(this, x, y, button, isTouch, presses)
@@ -54,7 +55,17 @@ return {
           this.action()
         end
         this.pressed = false
-      end
+      end,
+
+      collidesWith = function(this, x, y)
+        return (
+            x >= (love.graphics.getWidth() - this.width) / 2
+            and x <= (love.graphics.getWidth() + this.width) / 2
+            and y >= this.y - this.height / 2
+            and y <= this.y + this.height / 2)
+      end,
     }
+    button:init()
+    return button
   end,
 }

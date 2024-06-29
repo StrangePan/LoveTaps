@@ -1,3 +1,5 @@
+require 'tracks'
+require 'util'
 
 game = {}
 
@@ -8,16 +10,16 @@ local recordingFile = nil
 local backgroundShader = nil
 local pauseMenu = require 'menu.pause-menu'
 
-local function loadTrack(filename)
+local function loadNotes(filename)
   local file = love.filesystem.newFile(filename)
   local ok,e = file:open('r')
   if not ok then error(e) end
-  local track = {}
+  local notes = {}
   for line in file:lines() do
-    table.insert(track, tonumber(line))
+    table.insert(notes, tonumber(line))
   end
   file:close()
-  return track
+  return notes
 end
 
 function love.load()
@@ -33,11 +35,7 @@ function love.load()
 
   love.graphics.setBackgroundColor(1, 1, 1, 1)
 
-  game.music = love.audio.newSource("tracks/monkey-watch.mp3", "stream")
-
-  game.track = require 'guitar-hero.guitar-hero-track'
-  game.track:setTrack(game.music, loadTrack("tracks/monkey-watch.track"))
-  game.music:play()
+  game:goToMainMenu()
 end
 
 function love.quit()
@@ -101,6 +99,46 @@ function love.wheelmoved(x, y)
   end
 end
 
+local function closeCurrentTrack(this)
+  this.track = nil
+  if this.music then
+    this.music:stop()
+    this.music = nil
+  end
+  this.currentTrack = nil
+end
+
+local function showMenu(this, menu)
+  this.menu = menu
+end
+
+function game.goToMainMenu(this)
+  closeCurrentTrack(this)
+  showMenu(this, require('menu.main-menu').create())
+end
+
+function game.goToTracksMenu(this, page)
+  page = util.assert.positiveIntegerOrNil(page) or 1
+  closeCurrentTrack(this)
+  showMenu(this, require('menu.tracks-menu').create(page))
+end
+
+function game.startTrack(this, track)
+  util.assert.table(track)
+  util.assert.string(track.musicFileName)
+  util.assert.string(track.notesFileName)
+
+  this.menu = nil
+
+  closeCurrentTrack(this)
+
+  this.currentTrack = track
+  this.music = love.audio.newSource("tracks/"..track.musicFileName, "stream")
+  this.track = require 'guitar-hero.guitar-hero-track'.create()
+  this.track:setNotes(this.music, loadNotes("tracks/"..track.notesFileName))
+  this.music:play()
+end
+
 function game.pause(this)
   if not this.menu then
     this.menu = pauseMenu.create()
@@ -118,9 +156,13 @@ function game.unpause(this)
 end
 
 function game.restart(this)
-  if this.music then
-    this.music:seek(0)
-  end
+  if not this.currentTrack or not this.music or not this.track then return end
+  local notes = this.track.track
+  this.music:pause()
+  this.music:seek(0)
+  this.track = require 'guitar-hero.guitar-hero-track'.create()
+  this.track:setNotes(this.music, notes)
+  this.music:play()
 end
 
 function game.quit(this)
