@@ -1,21 +1,19 @@
 local button = require 'menu.button'
 
-local pauseMenu = {
+return {
   create = function()
-    return {
-      buttons = {
-        continue = button.create((love.graphics.getHeight() - 120) / 2, "CONTINUE", function()
-          game:unpause()
-        end),
-        restart = button.create((love.graphics.getHeight()) / 2, "RESTART", function()
-          game:restart()
-          game:unpause()
-        end),
-        quit = button.create((love.graphics.getHeight() + 120) / 2, "QUIT", function()
-          game:quit()
-        end)
-      },
-
+    return require('menu.menu').create({
+      continue = button.create((love.graphics.getHeight() - 120) / 2, "CONTINUE", function()
+        game:unpause()
+      end),
+      restart = button.create((love.graphics.getHeight()) / 2, "RESTART", function()
+        game:restart()
+        game:unpause()
+      end),
+      quit = button.create((love.graphics.getHeight() + 120) / 2, "QUIT", function()
+        game:quit()
+      end),
+    }, {
       draw = function(this)
         love.graphics.push()
 
@@ -54,44 +52,10 @@ local pauseMenu = {
             height + padding * 2,
             rounding)
 
-        for _,button in pairs(this.buttons) do
-          button:draw()
-        end
+        this:drawButtons()
 
         love.graphics.pop()
       end,
-
-      mousemoved = function(this, x, y, dx, dy, istouch)
-        for _,button in pairs(this.buttons) do
-          if button.mousemoved then
-            button:mousemoved(x, y, dx, dy, istouch)
-          end
-        end
-      end,
-
-      mousepressed = function(this, x, y, button, isTouch, presses)
-        for _,button in pairs(this.buttons) do
-          if button.mousepressed then
-            button:mousepressed(x, y, button, isTouch, presses)
-          end
-        end
-      end,
-
-      mousereleased = function(this, x, y, button, istouch, presses)
-        for _,button in pairs(this.buttons) do
-          if button.mousereleased then
-            button:mousereleased(x, y, button, istouch, presses)
-          end
-        end
-      end,
-
-      keypressed = function(this, key, scancode, isRepeat)
-        if key == "escape" then
-          game:unpause()
-        end
-      end
-    }
+    })
   end,
 }
-
-return pauseMenu
