@@ -2,7 +2,7 @@
 -- similar to many other games in this genre such as guitar hero, rock band, and
 -- tap tap revolution.
 
-local note = require 'guitar-hero-note'
+local note = require 'guitar-hero.guitar-hero-note'
 
 local hitTolerance = 0.1
 
@@ -10,8 +10,8 @@ return {
   track = nil,
   notes = nil,
   noteIndex = nil,
-  tapper = require 'guitar-hero-tapper',
-  particles = require 'guitar-hero-particles',
+  tapper = require 'guitar-hero.guitar-hero-tapper',
+  particles = require 'guitar-hero.guitar-hero-particles',
 
   draw = function(this)
     love.graphics.push()

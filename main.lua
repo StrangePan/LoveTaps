@@ -35,7 +35,7 @@ function love.load()
 
   game.music = love.audio.newSource("tracks/monkey-watch.mp3", "stream")
 
-  game.track = require 'guitar-hero-track'
+  game.track = require 'guitar-hero.guitar-hero-track'
   game.track:setTrack(game.music, loadTrack("tracks/monkey-watch.track"))
   game.music:play()
 end
