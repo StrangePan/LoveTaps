@@ -25,7 +25,16 @@ return {
         local padding = 20
         local rounding = 10
 
-        love.graphics.setColor(love.math.colorFromBytes(20, 20, 200, 255))
+        love.graphics.setColor(0, 0, 0, 0.25)
+        love.graphics.rectangle(
+            "fill",
+            (love.graphics.getWidth() - width) / 2 - padding + 12,
+            (love.graphics.getHeight() - height) / 2 - padding + 12,
+            width + padding * 2,
+            height + padding * 2,
+            rounding)
+
+        love.graphics.setColor(love.math.colorFromBytes(59, 143, 206, 255))
         love.graphics.rectangle(
             "fill",
             (love.graphics.getWidth() - width) / 2 - padding,
