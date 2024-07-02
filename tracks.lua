@@ -10,8 +10,6 @@ local function track(key, displayName, fileName)
 end
 
 tracks = {
-  track('holeInOne2', 'Hole in One 2', 'hole-in-one-2'),
-  track('monkeyWatch', 'Monkey Watch', 'monkey-watch'),
   track('funkMeBaby', 'Funk Me Baby', 'joystock-funk-me-baby'),
   track('popsicle', 'Popsicle', 'joystock-popsicle'),
   track('aura', 'Aura', 'joystock-aura'),
