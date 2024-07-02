@@ -1,6 +1,8 @@
 require 'tracks'
 require 'util'
 
+enableDebug = false
+
 game = {}
 
 local record = false
@@ -243,12 +245,12 @@ function love.keypressed(key, scancode, isRepeat)
   if key == "escape" and not isRepeat then
     game:pause()
   end
-  if key == "right" then
+  if key == "right" and enableDebug then
     if game.music and game.music:isPlaying() then
       game.music:seek(math.min(game.music:tell() + 5, game.music:getDuration() - 0.1))
     end
   end
-  if key == "left" then
+  if key == "left" and enableDebug then
     if game.music and game.music:isPlaying() then
       game.music:seek(math.max(game.music:tell() - 5, 0))
     end
