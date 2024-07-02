@@ -4,6 +4,7 @@ require 'util'
 game = {}
 
 local record = false
+local recordingFileName = "joystock-funk-me-baby"
 local recording = {}
 local recordingFile = nil
 
@@ -27,15 +28,13 @@ function love.load()
   if not shaderContents then error(e) end
   backgroundShader = love.graphics.newShader(shaderContents)
 
-  if record then
-    recordingFile = love.filesystem.newFile("recording")
-    local ok,e = recordingFile:open('w')
-    if not ok then error(e) end
-  end
-
   love.graphics.setBackgroundColor(1, 1, 1, 1)
 
-  game:goToMainMenu()
+  if record then
+    game:recordTrack()
+  else
+    game:goToMainMenu()
+  end
 end
 
 function love.quit()
@@ -137,6 +136,26 @@ function game.startTrack(this, track)
   this.track = require 'guitar-hero.guitar-hero-track'.create()
   this.track:setNotes(this.music, loadNotes("tracks/"..track.notesFileName))
   this.music:play()
+end
+
+function game.recordTrack(this)
+  local recordingTrack = {
+    key = "recording",
+    displayName = "recording",
+    musicFileName = recordingFileName..'.mp3',
+    notesFileName = recordingFileName..'.track',
+  }
+  recordingFile = love.filesystem.newFile(recordingTrack.notesFileName)
+  local ok,e = recordingFile:open('w')
+  if not ok then error(e) end
+
+  this.currentTrack = recordingTrack
+  this.music = love.audio.newSource("tracks/"..recordingTrack.musicFileName, "stream")
+  this.track = require 'guitar-hero.guitar-hero-track'.create()
+  this.track:setNotes(this.music, {})
+  this.music:play()
+
+  return
 end
 
 function game.goToEndTrackMenu(this, combo)
