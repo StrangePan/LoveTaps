@@ -10,6 +10,12 @@ return {
         game:quit()
       end),
     }, {
+      creditsFont = (function()
+        local f = love.graphics.newFont(16)
+        f:setLineHeight(1.4)
+        return f
+      end)(),
+
       draw = function(this)
         this:drawButtons()
 
@@ -20,7 +26,7 @@ return {
           love.graphics.draw(
               game.logo,
               love.graphics.getWidth() / 2,
-              250,
+              225,
               math.sin(love.timer.getTime() / 3) / 9,
               scale,
               scale,
@@ -28,12 +34,15 @@ return {
               game.logo:getHeight() --[[/ game.logo:getDPIScale()--]] / 2)
         end
 
+        local font = love.graphics.getFont()
+        love.graphics.setFont(this.creditsFont)
         love.graphics.printf(
-            'Created by Dan Andrus for Pixelicious - http://www.danandrus.me       Music by Joystock - https://www.joystock.org',
+            'Created by Dan Andrus for Pixelicious - http://www.danandrus.me\nMusic by Joystock - https://www.joystock.org',
             0,
-            love.graphics.getHeight() - 20,
+            love.graphics.getHeight() - 180,
             love.graphics.getWidth(),
             'center')
+        love.graphics.setFont(font)
       end,
 
       keypressed = function(this, key, scancode, isRepeat)
