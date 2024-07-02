@@ -13,6 +13,7 @@ tracks = {
   track('holeInOne2', 'Hole in One 2', 'hole-in-one-2'),
   track('monkeyWatch', 'Monkey Watch', 'monkey-watch'),
   track('funkMeBaby', 'Funk Me Baby', 'joystock-funk-me-baby'),
+  track('popsicle', 'Popsicle', 'joystock-popsicle')
 }
 
 -- Allow indexing by name instead of only by integer
