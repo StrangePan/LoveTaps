@@ -4,7 +4,7 @@ require 'util'
 game = {}
 
 local record = false
-local recordingFileName = 'joystock-popsicle'
+local recordingFileName = 'joystock-aura'
 local recording = {}
 local recordingFile = nil
 
