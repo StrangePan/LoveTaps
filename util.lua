@@ -46,6 +46,20 @@ util = {
         return result
       end
     end,
+
+    --- The reverse of a lerp. Calculates the ratio the value would have between the given range.
+    unlerp = function(from, to, value)
+      util.assert.number(value)
+      util.assert.number(from)
+      util.assert.number(to)
+      assert(from ~= to, 'expected '..tostring(from)..' to not be equal to '..tostring(to))
+      return (value-from) / (to-from)
+    end,
+
+    --- Remaps a value from the given range to another range. Essentially unlerps and relerps the value.
+    remap = function(fromStart, fromEnd, toStart, toEnd, value)
+      return util.math.lerp(toStart, toEnd, util.math.unlerp(fromStart, fromEnd, value))
+    end,
   },
 
   --- A collection of assertions that can be used to reduce code duplication.

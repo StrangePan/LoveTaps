@@ -30,6 +30,13 @@ function love.load()
 
   love.graphics.setBackgroundColor(1, 1, 1, 1)
 
+  game.menuMusic = love.audio.newSource('tracks/joystock-firebird.mp3', 'stream')
+  game.menuMusic:setLooping(true)
+  game.endTrackMusic = love.audio.newSource('tracks/joystock-spectacular.mp3', 'stream')
+  game.endTrackMusic:setLooping(false)
+
+  game.logo = love.graphics.newImage('LoveTaps.png', { dpiscale = 2 })
+
   if record then
     game:recordTrack()
   else
@@ -114,15 +121,19 @@ end
 function game.goToMainMenu(this)
   closeCurrentTrack(this)
   showMenu(this, require('menu.main-menu').create())
+  game:playMainMenuMusic()
 end
 
 function game.goToTracksMenu(this, page)
   page = util.assert.positiveIntegerOrNil(page) or 1
   closeCurrentTrack(this)
   showMenu(this, require('menu.tracks-menu').create(page))
+  game:playMainMenuMusic()
 end
 
 function game.startTrack(this, track)
+  this:stopCurrentMusic()
+
   util.assert.table(track)
   util.assert.string(track.musicFileName)
   util.assert.string(track.notesFileName)
@@ -162,6 +173,33 @@ function game.goToEndTrackMenu(this, combo)
   local currentTrack = this.currentTrack
   closeCurrentTrack(this)
   showMenu(this, require('menu.end-track-menu').create(combo, currentTrack))
+  game:playEndTrackMusic()
+end
+
+function game.playMainMenuMusic(this)
+  game:playMenuMusic(this.menuMusic)
+end
+
+function game.playEndTrackMusic(this)
+  game:playMenuMusic(this.endTrackMusic)
+end
+
+function game.playMenuMusic(this, music)
+  if this.currentMusic ~= music then
+    this:stopCurrentMusic()
+    this.currentMusic = music
+  end
+  if music and not music:isPlaying() then
+    music:seek(0)
+    music:play()
+  end
+end
+
+function game.stopCurrentMusic(this)
+  if this.currentMusic and this.currentMusic:isPlaying() then
+    this.currentMusic:stop()
+  end
+  this.currentMusic = nil
 end
 
 function game.pause(this)
