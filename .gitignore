@@ -1,4 +1,4 @@
-*.mp3
+/old-tracks/*.mp3
 /.idea/workspace.xml
 .DS_Store
 *.love
