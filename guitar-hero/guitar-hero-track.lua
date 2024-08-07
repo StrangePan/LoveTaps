@@ -15,7 +15,10 @@ return {
       noteIndex = nil,
       tapper = require('guitar-hero.guitar-hero-tapper').create(),
       particles = require('guitar-hero.guitar-hero-particles').create(),
-      combo = require('score.combo').create(love.graphics.getWidth() / 2 + 150, love.graphics.getHeight() - 150),
+      combo = require('score.combo').create(15, 100),
+      pauseButton = require('menu.pause-button').create(love.graphics.getWidth() - 80, 150, function()
+        game:pause()
+      end),
 
       draw = function(this)
         love.graphics.push()
@@ -47,6 +50,8 @@ return {
 
         this.tapper:draw()
         this.combo:draw()
+
+        this.pauseButton:draw()
       end,
 
       tap = function(this)
@@ -104,6 +109,9 @@ return {
       end,
 
       update = function(this, dt)
+        if this.pauseButton and this.pauseButton.update then
+          this.pauseButton:update(dt)
+        end
         if this.track and this.notes then
           this:updateNotes()
         end
@@ -151,6 +159,31 @@ return {
               this.combo:miss()
             end
           end
+        end
+      end,
+
+      mousepressed = function(this, ...)
+        if this.pauseButton and this.pauseButton.mousepressed and this.pauseButton:mousepressed(...) then
+          return
+        end
+        this:tap()
+      end,
+
+      mousereleased = function(this, ...)
+        if this.pauseButton and this.pauseButton.mousereleased and this.pauseButton:mousereleased(...) then
+          return
+        end
+      end,
+
+      mousemoved = function(this, ...)
+        if this.pauseButton and this.pauseButton.mousemoved and this.pauseButton:mousemoved(...) then
+          return
+        end
+      end,
+
+      keypressed = function(this, key, scancode, isRepeat)
+        if key == "space" then
+          this:tap()
         end
       end,
     }

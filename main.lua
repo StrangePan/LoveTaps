@@ -73,14 +73,15 @@ local function tap()
   if record then
     table.insert(recording, game.music:tell())
   end
-  if game.track then
-    game.track:tap()
-  end
 end
 
-function love.mousemoved(x, y, dx, dy, istouch)
+function love.mousemoved(x, y, dx, dy, isTouch)
   if game.menu and game.menu.mousemoved then
-    game.menu:mousemoved(x, y, dx, dy, istouch)
+    game.menu:mousemoved(x, y, dx, dy, isTouch)
+    return
+  end
+  if game.track and game.track.mousemoved then
+    game.track:mousemoved(x, y, dx, dy, isTouch)
     return
   end
 end
@@ -90,12 +91,20 @@ function love.mousepressed(x, y, button, isTouch, presses)
     game.menu:mousepressed(x, y, button, isTouch, presses)
     return
   end
+  if game.track and game.track.mousepressed then
+    game.track:mousepressed(x, y, button, isTouch, presses)
+    return
+  end
   tap()
 end
 
-function love.mousereleased(x, y, button, istouch, presses)
+function love.mousereleased(x, y, button, isTouch, presses)
   if game.menu and game.menu.mousereleased then
-    game.menu:mousereleased(x, y, button, istouch, presses)
+    game.menu:mousereleased(x, y, button, isTouch, presses)
+    return
+  end
+  if game.track and game.track.mousereleased then
+    game.track:mousereleased(x, y, button, isTouch, presses)
     return
   end
 end
@@ -103,6 +112,10 @@ end
 function love.wheelmoved(x, y)
   if game.menu and game.menu.wheelmoved then
     game.menu:wheelmoved(x, y)
+    return
+  end
+  if game.track and game.track.wheelmoved then
+    game.track:wheelmoved(x, y)
     return
   end
 end
@@ -239,9 +252,6 @@ function love.keypressed(key, scancode, isRepeat)
     game.menu:keypressed(key, scancode, isRepeat)
     return
   end
-  if key == "space" and not isRepeat then
-    tap()
-  end
   if key == "escape" and not isRepeat then
     game:pause()
   end
@@ -254,6 +264,10 @@ function love.keypressed(key, scancode, isRepeat)
     if game.music and game.music:isPlaying() then
       game.music:seek(math.max(game.music:tell() - 5, 0))
     end
+  end
+  if game.track and game.track.keypressed then
+    game.track:keypressed(key, scancode, isRepeat)
+    return
   end
 end
 

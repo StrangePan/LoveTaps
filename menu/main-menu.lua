@@ -22,7 +22,8 @@ return {
         love.graphics.setColor(1, 1, 1, 1)
 
         if game.logo then
-          local scale = (300 / game.logo:getHeight()) * util.math.remap(-1, 1, 1, 1.2, math.sin(love.timer.getTime() / 5))
+          local scale = (math.min((300 / game.logo:getHeight()), (love.graphics.getWidth() - 50) / game.logo:getWidth())
+              * util.math.remap(-1, 1, 1, 1.2, math.sin(love.timer.getTime() / 5)))
           love.graphics.draw(
               game.logo,
               love.graphics.getWidth() / 2,
@@ -39,7 +40,7 @@ return {
         love.graphics.printf(
             'Created by Dan Andrus for Pixelicious - http://www.danandrus.me\nMusic by Joystock - https://www.joystock.org',
             0,
-            love.graphics.getHeight() - 180,
+            love.graphics.getHeight() - 240,
             love.graphics.getWidth(),
             'center')
         love.graphics.setFont(font)
